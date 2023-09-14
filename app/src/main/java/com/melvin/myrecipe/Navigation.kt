@@ -9,6 +9,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.melvin.myrecipe.map.presentation.MapScreen
+import com.melvin.myrecipe.map.presentation.viewmodel.MapEvent
+import com.melvin.myrecipe.map.presentation.viewmodel.MapUiEvent
+import com.melvin.myrecipe.map.presentation.viewmodel.MapViewModel
 import com.melvin.myrecipe.recipes.presentation.detail.RecipeDetailScreen
 import com.melvin.myrecipe.recipes.presentation.detail.viewmodel.RecipeDetailEvent
 import com.melvin.myrecipe.recipes.presentation.detail.viewmodel.RecipeDetailUiEvent
@@ -61,7 +65,14 @@ fun Navigation(
                 LaunchedEffect(uiEvent) {
                     when (uiEvent) {
                         RecipeDetailUiEvent.NavigateBack -> navController.popBackStack()
-                        is RecipeDetailUiEvent.NavigateToMap -> navController.popBackStack() //TODO
+                        is RecipeDetailUiEvent.NavigateToMap ->
+                            navController.navigate(
+                                Routes.MapScreen.getDestination(
+                                    latitude = uiEvent.latitude,
+                                    longitude = uiEvent.longitude
+                                )
+                            )
+
                         is RecipeDetailUiEvent.ShowError -> makeToast(context, uiEvent.errorMessage)
                         null -> {}
                     }
@@ -70,6 +81,31 @@ fun Navigation(
             }
 
             RecipeDetailScreen(state = viewModel.state, onEvent = viewModel::onEvent)
+        }
+
+        composable(
+            route = Routes.MapScreen.getCompleteRoute(),
+            arguments = listOf(
+                navArgument(Routes.MapScreen.LONGITUDE) {
+                    type = NavType.StringType
+                },
+                navArgument(Routes.MapScreen.LATITUDE) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val viewModel: MapViewModel = hiltViewModel()
+
+            with(viewModel.state) {
+                when (uiEvent) {
+                    MapUiEvent.NavigateBack -> navController.popBackStack()
+                    is MapUiEvent.ShowError -> makeToast(context, uiEvent.errorMessage)
+                    null -> {}
+                }
+                viewModel.onEvent(MapEvent.OnUiEvenHandled)
+            }
+
+            MapScreen(state = viewModel.state, onEvent = viewModel::onEvent)
         }
     }
 }

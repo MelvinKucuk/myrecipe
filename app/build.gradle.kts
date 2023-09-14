@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,16 +7,18 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+val key: String = gradleLocalProperties(rootDir).getProperty("apiKey")
+
 android {
     namespace = "com.melvin.myrecipe"
-    compileSdk = 33
+    compileSdk = 34
 
     android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.melvin.myrecipe"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -24,6 +28,7 @@ android {
         }
 
         buildConfigField("String", "BASE_URL", "\"https://demo2328879.mockable.io/\"")
+        manifestPlaceholders["MAPS_API_KEY"] = key
     }
 
     buildTypes {
@@ -85,6 +90,13 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    //Maps
+    implementation("com.google.maps.android:maps-compose:2.7.2")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+
+    //Permission
+    implementation("com.google.accompanist:accompanist-permissions:0.33.1-alpha")
 
     //Unit Test
     testImplementation("junit:junit:4.13.2")

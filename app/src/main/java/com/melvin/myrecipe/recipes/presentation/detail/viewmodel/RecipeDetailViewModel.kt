@@ -32,20 +32,20 @@ class RecipeDetailViewModel @Inject constructor(
                 uiEvent = RecipeDetailUiEvent.ShowError("Invalid recipe id"),
                 isLoading = false
             )
-        }
-
-        viewModelScope.launch {
-            state = when (val result = repository.getRecipeById(recipeId!!)) {
-                is Resource.Success -> state.copy(
-                    recipe = result.data,
-                    isLoading = false
-                )
-
-                is Resource.Error ->
-                    state.copy(
-                        uiEvent = RecipeDetailUiEvent.ShowError(result.errorMessage),
+        } else {
+            viewModelScope.launch {
+                state = when (val result = repository.getRecipeById(recipeId)) {
+                    is Resource.Success -> state.copy(
+                        recipe = result.data,
                         isLoading = false
                     )
+
+                    is Resource.Error ->
+                        state.copy(
+                            uiEvent = RecipeDetailUiEvent.ShowError(result.errorMessage),
+                            isLoading = false
+                        )
+                }
             }
         }
     }
