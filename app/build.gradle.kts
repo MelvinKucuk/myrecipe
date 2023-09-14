@@ -23,7 +23,7 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "BASE_URL", "\"http://demo2328879.mockable.io/\"")
+        buildConfigField("String", "BASE_URL", "\"https://demo2328879.mockable.io/\"")
     }
 
     buildTypes {
@@ -72,6 +72,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.46.1")
