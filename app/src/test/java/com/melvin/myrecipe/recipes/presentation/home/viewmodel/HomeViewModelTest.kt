@@ -1,10 +1,10 @@
 package com.melvin.myrecipe.recipes.presentation.home.viewmodel
 
 import com.melvin.myrecipe.MainCoroutineRule
-import com.melvin.myrecipe.errorRecipe
+import com.melvin.myrecipe.errorRecipes
 import com.melvin.myrecipe.recipes
 import com.melvin.myrecipe.recipes.domain.RecipeRepository
-import com.melvin.myrecipe.successfulRecipe
+import com.melvin.myrecipe.successfulRecipes
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -25,7 +25,7 @@ class HomeViewModelTest {
 
     @Before
     fun setUp() {
-        coEvery { repository.getRecipes() } returns successfulRecipe
+        coEvery { repository.getRecipes() } returns successfulRecipes
 
         viewModel = HomeViewModel(repository)
 
@@ -34,7 +34,7 @@ class HomeViewModelTest {
 
     @Test
     fun `validate viewmodel init with successful response`() {
-        coEvery { repository.getRecipes() } returns successfulRecipe
+        coEvery { repository.getRecipes() } returns successfulRecipes
 
         viewModel = HomeViewModel(repository)
 
@@ -47,7 +47,7 @@ class HomeViewModelTest {
 
     @Test
     fun `validate viewmodel init with error response`() {
-        coEvery { repository.getRecipes() } returns errorRecipe
+        coEvery { repository.getRecipes() } returns errorRecipes
 
         viewModel = HomeViewModel(repository)
 
@@ -105,5 +105,12 @@ class HomeViewModelTest {
         viewModel.onEvent(HomeEvent.OnRecipeClick(recipeId))
 
         assertEquals(HomeUiEvent.NavigateToDetail(recipeId), viewModel.state.uiEvent)
+    }
+
+    @Test
+    fun `validate event OnUiEventHandled`() {
+        viewModel.onEvent(HomeEvent.OnUiEventHandled)
+
+        assertEquals(null, viewModel.state.uiEvent)
     }
 }

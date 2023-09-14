@@ -1,4 +1,4 @@
-package com.melvin.tvseries.core.util
+package com.melvin.myrecipe.core.util
 
 import android.content.Context
 import android.widget.Toast

@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.melvin.myrecipe.core.util.makeToast
 import com.melvin.myrecipe.map.presentation.MapScreen
 import com.melvin.myrecipe.map.presentation.viewmodel.MapEvent
 import com.melvin.myrecipe.map.presentation.viewmodel.MapUiEvent
@@ -21,7 +22,6 @@ import com.melvin.myrecipe.recipes.presentation.home.HomeScreen
 import com.melvin.myrecipe.recipes.presentation.home.viewmodel.HomeEvent
 import com.melvin.myrecipe.recipes.presentation.home.viewmodel.HomeUiEvent
 import com.melvin.myrecipe.recipes.presentation.home.viewmodel.HomeViewModel
-import com.melvin.tvseries.core.util.makeToast
 
 @Composable
 fun Navigation(
