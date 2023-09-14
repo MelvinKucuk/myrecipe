@@ -21,4 +21,15 @@ class RecipeRepositoryImpl @Inject constructor(
             is Resource.Error -> Resource.Error(result.errorMessage)
         }
     }
+
+    override suspend fun getRecipeById(recipeId: Int): Resource<Recipe> {
+        val result = safeApiCall {
+            service.getRecipeById(recipeId)
+        }
+
+        return when (result) {
+            is Resource.Success -> Resource.Success(result.data.toDomain())
+            is Resource.Error -> Resource.Error(result.errorMessage)
+        }
+    }
 }

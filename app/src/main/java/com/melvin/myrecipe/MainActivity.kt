@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.melvin.myrecipe.ui.theme.MyRecipeTheme
@@ -19,7 +20,10 @@ class MainActivity : ComponentActivity() {
             MyRecipeTheme {
                 val navController = rememberNavController()
 
-                Navigation(navController = navController)
+                Navigation(
+                    navController = navController,
+                    context = LocalContext.current
+                )
             }
         }
     }

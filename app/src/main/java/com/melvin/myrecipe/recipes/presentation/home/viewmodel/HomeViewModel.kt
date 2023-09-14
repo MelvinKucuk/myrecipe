@@ -22,17 +22,22 @@ class HomeViewModel @Inject constructor(
         private set
 
     init {
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
             state = when (val result = repository.getRecipes()) {
                 is Resource.Success -> {
                     state.copy(
                         recipes = result.data,
-                        allRecipes = result.data
+                        allRecipes = result.data,
+                        isLoading = false
                     )
                 }
 
                 is Resource.Error ->
-                    state.copy(uiEvent = HomeUiEvent.ShowError(result.errorMessage))
+                    state.copy(
+                        uiEvent = HomeUiEvent.ShowError(result.errorMessage),
+                        isLoading = false
+                    )
             }
 
         }
@@ -56,6 +61,8 @@ class HomeViewModel @Inject constructor(
                     }
                 )
             }
+
+            HomeEvent.OnUiEventHandled -> state.copy(uiEvent = null)
         }
     }
 

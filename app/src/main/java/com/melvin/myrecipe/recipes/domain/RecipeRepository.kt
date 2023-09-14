@@ -4,4 +4,5 @@ import com.melvin.myrecipe.core.data.Resource
 
 interface RecipeRepository {
     suspend fun getRecipes(): Resource<List<Recipe>>
+    suspend fun getRecipeById(recipeId: Int): Resource<Recipe>
 }

@@ -8,6 +8,7 @@ import com.melvin.myrecipe.successfulRecipe
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -41,6 +42,7 @@ class HomeViewModelTest {
 
         assertEquals(recipes, viewModel.state.recipes)
         assertEquals(recipes, viewModel.state.allRecipes)
+        assertFalse(viewModel.state.isLoading)
     }
 
     @Test
@@ -52,6 +54,7 @@ class HomeViewModelTest {
         coroutineRule.dispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(HomeUiEvent.ShowError("error"), viewModel.state.uiEvent)
+        assertFalse(viewModel.state.isLoading)
     }
 
     @Test
